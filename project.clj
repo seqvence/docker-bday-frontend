@@ -18,14 +18,12 @@
                  [org.clojure/clojurescript "1.7.228" :scope "provided"]
                  [secretary "1.2.3"]
                  [venantius/accountant "0.1.6"
-                  :exclusions [org.clojure/tools.reader]]
-                 ]
+                  :exclusions [org.clojure/tools.reader]]]
 
   :plugins [[lein-environ "1.0.2"]
             [lein-cljsbuild "1.1.1"]
             [lein-asset-minifier "0.2.4"
-             :exclusions [org.clojure/clojure]]
-]
+             :exclusions [org.clojure/clojure]]]
 
   :ring {:handler docker-bday-frontend.handler/app
          :uberwar-name "docker-bday-frontend.war"}
