@@ -10,6 +10,11 @@
                  [org.clojure/clojurescript "1.7.170"]
                  [org.clojure/core.async "0.2.374"
                   :exclusions [org.clojure/tools.reader]]
+                 [reagent "0.5.1"]
+                 [reagent-utils "0.1.5"]
+                 [reagent-forms "0.5.9"]
+                 [secretary "1.2.3"]
+                 [cljs-ajax "0.3.14"]
                  [figwheel-sidecar "0.5.0"]]
   
   :plugins [[lein-cljsbuild "1.1.2" :exclusions [[org.clojure/clojure]]]]
