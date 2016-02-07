@@ -9,13 +9,33 @@
 
 (enable-console-print!)
 
-(defonce app-state (atom {:text "Initial state"}))
+(defonce app-state (atom {:stats "Initial state"}))
+
+;;-------------------------
+;; Backend comm.
+
+(defn response-handler [response]
+  (println "Received response from backend")
+  (swap! app-state assoc :stats response)
+  (println "Saved stats"))
+
+(defn error-handler [{:keys [status status-text]}]
+  (println (str "something bad happened: " status " " status-text)))
+
+(defn get-stats []
+  (println (str "Retrieving stats"))
+  (GET "/stats"
+       {:handler response-handler
+        :error-handler error-handler
+        :format :json
+        :response-format :json}))
 
 ;;--------------------------
 ;; Pages
 
 (defn home-page []
-  [:div (get @app-state :text)])
+  (get-stats)
+  [:div (get @app-state :stats)])
 
 
 (defn current-page []
