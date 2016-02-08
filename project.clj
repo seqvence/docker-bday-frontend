@@ -34,7 +34,8 @@
                            :asset-path "js/compiled/out"
                            :output-to "resources/public/js/compiled/docker_bday_frontend.js"
                            :output-dir "resources/public/js/compiled/out"
-                           :source-map-timestamp true}}
+                           :source-map-timestamp true
+                           :externs ["externs.js"]}}
                ;; This next build is an compressed minified build for
                ;; production. You can build this with:
                ;; lein cljsbuild once min
@@ -43,7 +44,8 @@
                 :compiler {:output-to "resources/public/js/compiled/docker_bday_frontend.js"
                            :main docker-bday-frontend.core
                            :optimizations :advanced
-                           :pretty-print false}}]}
+                           :pretty-print false
+                           :externs ["externs.js"]}}]}
 
   :figwheel {;; :http-server-root "public" ;; default and assumes "resources"
              ;; :server-port 3449 ;; default
