@@ -15,9 +15,8 @@
 ;; Backend comm.
 
 (defn response-handler [response]
-  (println "Received response from backend")
-  (swap! app-state assoc :stats response)
-  (println "Saved stats"))
+  (println (str "Received response from backend: " response))
+  (swap! app-state assoc :stats response))
 
 (defn error-handler [{:keys [status status-text]}]
   (println (str "something bad happened: " status " " status-text)))
@@ -35,7 +34,10 @@
 
 (defn home-page []
   (get-stats)
-  [:div (get @app-state :stats)])
+  [:div
+    [:button {:on-click (fn [e] (.preventDefault e)
+                          (get-stats))} "Refresh"]
+    [:div (get @app-state :stats)]])
 
 
 (defn current-page []
