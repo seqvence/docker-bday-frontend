@@ -32,13 +32,30 @@
 ;;--------------------------
 ;; Pages
 
+(defn map-render []
+  [:div {:style {:height "300px"}}
+   ])
+
+(defn map-did-mount [this]
+  (let [map-canvas (reagent/dom-node this)
+        map-options (clj->js {"center" (google.maps.LatLng. 52.3667, 4.9000)
+                              "zoom" 8})]
+    (js/google.maps.Map. map-canvas map-options)))
+
+(defn map-component []
+  (reagent/create-class {:reagent-render map-render
+                         :component-did-mount map-did-mount}))
+
+;;--------------------------
+;; Pages
+
 (defn home-page []
   (get-stats)
   [:div
+    [map-component]
     [:button {:on-click (fn [e] (.preventDefault e)
                           (get-stats))} "Refresh"]
     [:div (get @app-state :stats)]])
-
 
 (defn current-page []
   [:div [(session/get :current-page)]])
