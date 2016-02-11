@@ -1,5 +1,6 @@
 (ns docker-bday-frontend.core
-  (:require [reagent.core :as reagent]
+  (:require [docker-bday-frontend.map :as map]
+            [reagent.core :as reagent]
             [reagent.session :as session]
             [goog.events :as events]
             [goog.history.EventType :as EventType]
@@ -10,7 +11,6 @@
 (enable-console-print!)
 
 ; ugly variable required to reference the map
-(declare *map*)
 (defonce app-state (atom {:stats "Initial state"}))
 
 ;;-------------------------
@@ -31,43 +31,9 @@
         :format :json
         :response-format :json}))
 
-;;--------------------------
-;; Components
-(defn geocode-result [result status]
-  (println (js->clj result)))
-
-(defn geocode-address [address]
-  (println (str "Geocoding " address))
-  (let [geocoder (google.maps.Geocoder.)]
-    (.geocode geocoder (clj->js {"address" address}) geocode-result)))
-
-(defn create-lat-lng [lat lng]
-  (js/google.maps.LatLng. lat lng))
-
-(defn create-marker []
-  (println "Adding marker to map")
-  (.setMap (js/google.maps.Marker. (clj->js {"position" (create-lat-lng 52.3667 4.9002) "title" "test"})) *map* ))
-
-(defn submission-marker [submission]
-  (let [marker (create-marker)]
-    marker))
-
-
-
-
-(defn map-render []
-  [:div {:style {:height "300px" :width "600px"}}
-   ])
-
-(defn map-did-mount [this]
-  (let [map-canvas (reagent/dom-node this)
-        map-options (clj->js {"center" (google.maps.LatLng. 52.3667, 4.9000)
-                              "zoom" 11})]
-    (set! *map* (js/google.maps.Map. map-canvas map-options))))
-
-(defn map-component []
-  (reagent/create-class {:reagent-render map-render
-                         :component-did-mount map-did-mount}))
+(defn print-loc [address]
+  (println "retrieveing location")
+  (println (map/get-location address)))
 
 ;;--------------------------
 ;; Pages
@@ -75,13 +41,13 @@
 (defn home-page []
   (get-stats)
   [:div
-    [map-component]
+    [map/map-component]
     [:button {:on-click (fn [e] (.preventDefault e)
                           (get-stats))} "Refresh"]
     [:button {:on-click (fn [e] (.preventDefault e)
-                          (create-marker))} "Create"]
+                          (map/create-marker))} "Create"]
     [:button {:on-click (fn [e] (.preventDefault e)
-                          (geocode-address "1600 Amphitheatre Parkway, Mountain View, CA"))} "Geocode"]])
+                          (print-loc "1600 Amphitheatre Parkway, Mountain View, CA"))} "Geocode"]])
     ;[:div (get @app-state :stats)]
 
 (defn current-page []
