@@ -9,6 +9,8 @@
 
 (enable-console-print!)
 
+; ugly variable required to reference the map
+(declare *map*)
 (defonce app-state (atom {:stats "Initial state"}))
 
 ;;-------------------------
@@ -30,17 +32,38 @@
         :response-format :json}))
 
 ;;--------------------------
-;; Pages
+;; Components
+(defn geocode-result [result status]
+  (println (js->clj result)))
+
+(defn geocode-address [address]
+  (println (str "Geocoding " address))
+  (let [geocoder (google.maps.Geocoder.)]
+    (.geocode geocoder (clj->js {"address" address}) geocode-result)))
+
+(defn create-lat-lng [lat lng]
+  (js/google.maps.LatLng. lat lng))
+
+(defn create-marker []
+  (println "Adding marker to map")
+  (.setMap (js/google.maps.Marker. (clj->js {"position" (create-lat-lng 52.3667 4.9002) "title" "test"})) *map* ))
+
+(defn submission-marker [submission]
+  (let [marker (create-marker)]
+    marker))
+
+
+
 
 (defn map-render []
-  [:div {:style {:height "300px"}}
+  [:div {:style {:height "300px" :width "600px"}}
    ])
 
 (defn map-did-mount [this]
   (let [map-canvas (reagent/dom-node this)
         map-options (clj->js {"center" (google.maps.LatLng. 52.3667, 4.9000)
-                              "zoom" 8})]
-    (js/google.maps.Map. map-canvas map-options)))
+                              "zoom" 11})]
+    (set! *map* (js/google.maps.Map. map-canvas map-options))))
 
 (defn map-component []
   (reagent/create-class {:reagent-render map-render
@@ -55,7 +78,11 @@
     [map-component]
     [:button {:on-click (fn [e] (.preventDefault e)
                           (get-stats))} "Refresh"]
-    [:div (get @app-state :stats)]])
+    [:button {:on-click (fn [e] (.preventDefault e)
+                          (create-marker))} "Create"]
+    [:button {:on-click (fn [e] (.preventDefault e)
+                          (geocode-address "1600 Amphitheatre Parkway, Mountain View, CA"))} "Geocode"]])
+    ;[:div (get @app-state :stats)]
 
 (defn current-page []
   [:div [(session/get :current-page)]])
