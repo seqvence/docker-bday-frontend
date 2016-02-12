@@ -1,5 +1,7 @@
 (ns docker-bday-frontend.core
-  (:require [docker-bday-frontend.map :as map]
+  (:require-macros [cljs.core.async.macros :refer [go go-loop]])
+  (:require [cljs.core.async :refer [>! <! chan put!]]
+            [docker-bday-frontend.map :as map]
             [reagent.core :as reagent]
             [reagent.session :as session]
             [goog.events :as events]
@@ -33,7 +35,7 @@
 
 (defn print-loc [address]
   (println "retrieveing location")
-  (println (map/get-location address)))
+  (go (println (<! (map/get-location address)))))
 
 ;;--------------------------
 ;; Pages

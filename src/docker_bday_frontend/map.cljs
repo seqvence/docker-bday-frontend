@@ -1,7 +1,7 @@
 (ns docker-bday-frontend.map
-  (:require-macros [cljs.core.async.macros :refer [go]])
+  (:require-macros [cljs.core.async.macros :refer [go go-loop]])
   (:require [reagent.core :as reagent]
-            [cljs.core.async :refer [>! <! chan put!]]))
+            [cljs.core.async :refer [>! <! chan put! close!]]))
 
 (declare *maper*)
 
