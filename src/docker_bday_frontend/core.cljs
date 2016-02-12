@@ -18,9 +18,15 @@
 ;;-------------------------
 ;; Backend comm.
 
+(defn add-submission [submission]
+  (println (str "adding submission for " (get submission "name")))
+  (go (map/create-marker (get submission "name") (get-in (js->clj (<! (map/get-location (get submission "location")))) [:result 0 "geometry" "location"]))))
+
 (defn response-handler [response]
   (println (str "Received response from backend: " response))
-  (swap! app-state assoc :stats response))
+  (swap! app-state assoc :stats response)
+  (doseq [submission response]
+    (add-submission submission)))
 
 (defn error-handler [{:keys [status status-text]}]
   (println (str "something bad happened: " status " " status-text)))
@@ -35,7 +41,8 @@
 
 (defn print-loc [address]
   (println "retrieveing location")
-  (go (println (<! (map/get-location address)))))
+  (go (println (get-in (js->clj (<! (map/get-location address))) [:result 0 "geometry" "location"]))))
+
 
 ;;--------------------------
 ;; Pages
@@ -47,7 +54,7 @@
     [:button {:on-click (fn [e] (.preventDefault e)
                           (get-stats))} "Refresh"]
     [:button {:on-click (fn [e] (.preventDefault e)
-                          (map/create-marker))} "Create"]
+                          (map/create-marker "test" (map/create-lat-lng "50" "50")))} "Create"]
     [:button {:on-click (fn [e] (.preventDefault e)
                           (print-loc "1600 Amphitheatre Parkway, Mountain View, CA"))} "Geocode"]])
     ;[:div (get @app-state :stats)]

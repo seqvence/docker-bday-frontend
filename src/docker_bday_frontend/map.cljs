@@ -18,20 +18,10 @@
   (reagent/create-class {:reagent-render map-render
                          :component-did-mount map-did-mount}))
 
-
 (defn geocode-to-location
   [geo]
   (let [pos (-> geo .-geometry .-location)]
     {:lat (.-k pos) :lng (.-B pos)}))
-
-;(defn geocode-result [result status]
-;  (let [location (js->clj result)]
-;  (println (get-in location [0 "geometry" "location"]))))
-;
-;(defn geocode-address [address]
-;  (println (str "Geocoding " address))
-;  (let [geocoder (google.maps.Geocoder.)]
-;    (.geocode geocoder (clj->js {"address" address}) geocode-result)))
 
 (defn get-geocode [location]
   (println (str "Performing get-geocode " location))
@@ -54,6 +44,6 @@
 (defn create-lat-lng [lat lng]
   (js/google.maps.LatLng. lat lng))
 
-(defn create-marker []
+(defn create-marker [name latlng]
   (println "Adding marker to map")
-  (.setMap (js/google.maps.Marker. (clj->js {"position" (create-lat-lng 52.3667 4.9002) "title" "test"})) *maper* ))
+  (.setMap (js/google.maps.Marker. (clj->js {"position" latlng "title" name})) *maper* ))
