@@ -6,12 +6,12 @@
 (declare *maper*)
 
 (defn map-render []
-  [:div {:style {:height "300px" :width "600px"}}])
+  [:div {:style {:height "500px" :width "700px"}}])
 
 (defn map-did-mount [this]
   (let [map-canvas (reagent/dom-node this)
-        map-options (clj->js {"center" (google.maps.LatLng. 52.3667, 4.9000)
-                              "zoom" 3})]
+        map-options (clj->js {"center" (google.maps.LatLng. 37.7833, -122.4167)
+                              "zoom" 5})]
     (set! *maper* (js/google.maps.Map. map-canvas map-options))))
 
 (defn map-component []

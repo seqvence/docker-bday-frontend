@@ -45,14 +45,14 @@
 
 (defn home-page []
   [:div
-    (components/menu)
+    (components/header)
     [:button {:on-click (fn [e] (.preventDefault e)
               (get-stats))} "Refresh"]
     [map/map-component]])
 
 (defn about-page []
   [:div
-   (components/menu)
+   (components/header)
    [:h1 "Instructions content"]])
 
 
