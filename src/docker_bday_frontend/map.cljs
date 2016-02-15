@@ -18,13 +18,7 @@
   (reagent/create-class {:reagent-render map-render
                          :component-did-mount map-did-mount}))
 
-(defn geocode-to-location
-  [geo]
-  (let [pos (-> geo .-geometry .-location)]
-    {:lat (.-k pos) :lng (.-B pos)}))
-
 (defn get-geocode [location]
-  (println (str "Performing get-geocode " location))
   (let [res (chan)
         geocoder (google.maps.Geocoder.)]
     (.geocode geocoder

@@ -2,6 +2,7 @@
   (:require-macros [cljs.core.async.macros :refer [go go-loop]])
   (:require [cljs.core.async :refer [>! <! chan put!]]
             [docker-bday-frontend.map :as map]
+            [docker-bday-frontend.components :as components]
             [reagent.core :as reagent]
             [reagent.session :as session]
             [goog.events :as events]
@@ -39,25 +40,21 @@
         :format :json
         :response-format :json}))
 
-(defn print-loc [address]
-  (println "retrieveing location")
-  (go (println (get-in (js->clj (<! (map/get-location address))) [:result 0 "geometry" "location"]))))
-
-
 ;;--------------------------
 ;; Pages
 
 (defn home-page []
-  (get-stats)
   [:div
-    [map/map-component]
+    (components/menu)
     [:button {:on-click (fn [e] (.preventDefault e)
-                          (get-stats))} "Refresh"]
-    [:button {:on-click (fn [e] (.preventDefault e)
-                          (map/create-marker "test" (map/create-lat-lng "50" "50")))} "Create"]
-    [:button {:on-click (fn [e] (.preventDefault e)
-                          (print-loc "1600 Amphitheatre Parkway, Mountain View, CA"))} "Geocode"]])
-    ;[:div (get @app-state :stats)]
+              (get-stats))} "Refresh"]
+    [map/map-component]])
+
+(defn about-page []
+  [:div
+   (components/menu)
+   [:h1 "Instructions content"]])
+
 
 (defn current-page []
   [:div [(session/get :current-page)]])
@@ -69,6 +66,9 @@
 
 (secretary/defroute "/" []
                     (session/put! :current-page home-page))
+
+(secretary/defroute "/instructions" []
+                    (session/put! :current-page about-page))
 
 
 ;; -------------------------
