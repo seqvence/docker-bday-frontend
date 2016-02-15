@@ -12,7 +12,7 @@
   (let [map-canvas (reagent/dom-node this)
         map-options (clj->js {"center" (google.maps.LatLng. 37.7833, -122.4167)
                               "zoom" 5})]
-    (set! *maper* (js/google.maps.Map. map-canvas map-options))))
+    (set! *maper* (google.maps.Map. map-canvas map-options))))
 
 (defn map-component []
   (reagent/create-class {:reagent-render map-render
@@ -36,8 +36,8 @@
     out))
 
 (defn create-lat-lng [lat lng]
-  (js/google.maps.LatLng. lat lng))
+  (google.maps.LatLng. lat lng))
 
 (defn create-marker [name latlng]
   (println "Adding marker to map")
-  (.setMap (js/google.maps.Marker. (clj->js {"position" latlng "title" name})) *maper* ))
+  (.setMap (google.maps.Marker. (clj->js {"position" latlng "title" name})) *maper* ))

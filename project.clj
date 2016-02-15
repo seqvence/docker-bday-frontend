@@ -15,7 +15,8 @@
                  [reagent-forms "0.5.9"]
                  [secretary "1.2.3"]
                  [cljs-ajax "0.3.14"]
-                 [figwheel-sidecar "0.5.0"]]
+                 [figwheel-sidecar "0.5.0"]
+                 [cljsjs/google-maps "3.18-1"]]
   
   :plugins [[lein-cljsbuild "1.1.2" :exclusions [[org.clojure/clojure]]]]
 
