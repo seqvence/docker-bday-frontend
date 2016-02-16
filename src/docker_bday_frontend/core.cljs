@@ -50,11 +50,6 @@
               (get-stats))} "Refresh"]
     [map/map-component]])
 
-(defn about-page []
-  [:div
-   [components/header]
-   [:h1 "Instructions content"]])
-
 
 (defn current-page []
   [:div [(session/get :current-page)]])
@@ -66,9 +61,6 @@
 
 (secretary/defroute "/" []
                     (session/put! :current-page home-page))
-
-(secretary/defroute "/instructions" []
-                    (session/put! :current-page about-page))
 
 
 ;; -------------------------
