@@ -21,7 +21,7 @@
 
 (defn add-submission [submission]
   (println (str "adding submission for " (get submission "name")))
-  (go (map/create-marker (get submission "name") (get-in (js->clj (<! (map/get-location (get submission "location")))) [:result 0 "geometry" "location"]))))
+  (go (map/submission-marker (get submission "name") (get-in (js->clj (<! (map/get-location (get submission "location")))) [:result 0 "geometry" "location"]))))
 
 (defn response-handler [response]
   (println (str "Received response from backend: " response))

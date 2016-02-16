@@ -42,7 +42,7 @@
                ;; lein cljsbuild once min
                {:id "min"
                 :source-paths ["src"]
-                :compiler {:output-to "resources/public/js/compiled/docker_bday_frontend.js"
+                :compiler {:output-to "resources/public/js/compiled/docker_bday_frontend.min.js"
                            :main docker-bday-frontend.core
                            :optimizations :advanced
                            :pretty-print false

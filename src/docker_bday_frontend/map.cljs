@@ -10,8 +10,8 @@
 
 (defn map-did-mount [this]
   (let [map-canvas (reagent/dom-node this)
-        map-options (clj->js {"center" (google.maps.LatLng. 37.7833, -122.4167)
-                              "zoom" 5})]
+        map-options (clj->js {"center" (google.maps.LatLng. 37.7833, -20.4167)
+                              "zoom" 2})]
     (set! *maper* (google.maps.Map. map-canvas map-options))))
 
 (defn map-component []
@@ -39,5 +39,34 @@
   (google.maps.LatLng. lat lng))
 
 (defn create-marker [name latlng]
-  (println "Adding marker to map")
   (.setMap (google.maps.Marker. (clj->js {"position" latlng "title" name})) *maper* ))
+
+(defn get-marker [name latlng]
+  (google.maps.Marker. (clj->js {"position" latlng "title" name})))
+
+(defn create-infowindow [id]
+  (js/google.maps.InfoWindow. (clj->js {"content" (str "<div id='info-"id"'></div>")})))
+
+(defn submission-info-window [name]
+  [:div
+   [:div name]])
+
+(defn submission-marker [name location]
+  (let [marker (get-marker name location)
+        infowindow (create-infowindow name)]
+
+    (js/google.maps.event.addListener
+      marker
+      "click"
+      (fn []
+        (.open infowindow *maper* marker)
+        ))
+
+    (js/google.maps.event.addListener
+      infowindow
+      "domready"
+      (fn []
+        (reagent/render (submission-info-window name) (js/document.getElementById (str "info-" name))))
+        )
+
+  (.setMap marker *maper*)))
