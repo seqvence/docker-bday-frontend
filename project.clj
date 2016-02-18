@@ -16,8 +16,9 @@
                  [secretary "1.2.3"]
                  [cljs-ajax "0.3.14"]
                  [figwheel-sidecar "0.5.0"]
-                 [cljsjs/google-maps "3.18-1"]]
-  
+                 [cljsjs/google-maps "3.18-1"]
+                 [gmaps-cljs "0.0.2"]]
+
   :plugins [[lein-cljsbuild "1.1.2" :exclusions [[org.clojure/clojure]]]]
 
   :source-paths ["src"]
@@ -26,7 +27,7 @@
 
   :cljsbuild {:builds
               [{:id "dev"
-                :source-paths ["src"]
+                :source-paths ["src"  "checkouts/gmaps-cljs/src"]
 
                 ;; If no code is to be run, set :figwheel true for continued automagical reloading
                 :figwheel {:on-jsload "docker-bday-frontend.core/on-js-reload"}
@@ -35,18 +36,16 @@
                            :asset-path "js/compiled/out"
                            :output-to "resources/public/js/compiled/docker_bday_frontend.js"
                            :output-dir "resources/public/js/compiled/out"
-                           :source-map-timestamp true
-                           :externs ["externs.js"]}}
+                           :source-map-timestamp true}}
                ;; This next build is an compressed minified build for
                ;; production. You can build this with:
                ;; lein cljsbuild once min
                {:id "min"
-                :source-paths ["src"]
+                :source-paths ["src" "checkouts/gmaps-cljs/src"]
                 :compiler {:output-to "resources/public/js/compiled/docker_bday_frontend.min.js"
                            :main docker-bday-frontend.core
                            :optimizations :advanced
-                           :pretty-print false
-                           :externs ["externs.js"]}}]}
+                           :pretty-print false}}]}
 
   :figwheel {;; :http-server-root "public" ;; default and assumes "resources"
              ;; :server-port 3449 ;; default
