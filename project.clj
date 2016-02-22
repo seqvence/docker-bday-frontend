@@ -46,7 +46,7 @@
                 :source-paths ["src" "checkouts/gmaps-cljs/src"]
                 :compiler {:output-to "resources/public/js/compiled/docker_bday_frontend.min.js"
                            :main docker-bday-frontend.core
-                           :optimizations :advanced
+                           :optimizations :whitespace
                            :pretty-print false}}]}
 
   :figwheel {;; :http-server-root "public" ;; default and assumes "resources"
