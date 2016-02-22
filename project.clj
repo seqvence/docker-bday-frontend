@@ -36,6 +36,8 @@
                            :asset-path "js/compiled/out"
                            :output-to "resources/public/js/compiled/docker_bday_frontend.js"
                            :output-dir "resources/public/js/compiled/out"
+                           :foreign-libs [{:file "markerclusterer/markerclusterer.js"
+                                           :provides ["markerclusterer"]}]
                            :source-map-timestamp true}}
                ;; This next build is an compressed minified build for
                ;; production. You can build this with:
