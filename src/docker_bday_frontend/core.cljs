@@ -15,7 +15,7 @@
 (enable-console-print!)
 
 ; ugly variable required to reference the map
-(defonce app-state (reagent/atom {:stats "Initial state"}))
+(defonce app-state (reagent/atom {:stats "Initial state" :instructions "Instructions content"}))
 
 
 
@@ -25,8 +25,11 @@
 (defn response-handler [response]
   (println (str "Received response from backend: " response))
   (swap! app-state assoc :stats response)
-  (doseq [submission response]
+  (doseq [submission (get response "submissions")]
     (dmap/add-marker submission)))
+
+(defn instructions-handler [response]
+  (swap! app-state assoc :instructions response))
 
 (defn error-handler [{:keys [status status-text]}]
   (println (str "something bad happened: " status " " status-text)))
@@ -38,6 +41,11 @@
         :error-handler error-handler
         :format :json
         :response-format :json}))
+
+(defn get-instructions []
+  (GET "/tutorial_outline.html"
+       {:handler instructions-handler
+        :error-handler error-handler}))
 
 ;;--------------------------
 ;; Pages
@@ -53,7 +61,7 @@
 (defn instructions []
   [:div
    [components/header]
-   [:div "Instructions content"]])
+   [:div {:dangerouslySetInnerHTML {:__html (get @app-state :instructions)}}]])
 
 
 (defn current-page []
@@ -91,6 +99,7 @@
 (defn init! []
   (hook-browser-navigation!)
   (mount-root)
-  (get-stats))
+  (get-stats)
+  (get-instructions))
 
 (init!)

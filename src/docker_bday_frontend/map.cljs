@@ -18,8 +18,8 @@
      :markers #{}}))
 
 (defn add-marker [submission]
-  (println (str "Adding marker for " (get submission "name")))
+  (println (str "Adding marker for " (get submission "id")))
   (let [marker {:position (get submission "coordinates")
-                :title (get submission "name")}
+                :title (get submission "id")}
         all-markers (conj (get @map-data :markers) marker)]
     (swap! map-data assoc :markers all-markers)))
