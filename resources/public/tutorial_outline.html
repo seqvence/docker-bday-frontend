@@ -1,0 +1,310 @@
+<h2 id="toc_0">Working instructions</h2>
+
+<p><br></p>
+
+<h2 id="toc_1">Install Docker</h2>
+
+<p>Docker is available for several platforms and you may choose from any of the ones listed below:</p>
+
+<ul>
+<li><a href="https://docs.docker.com/mac/step_one/">MacOS</a></li>
+<li><a href="https://docs.docker.com/linux/step_one/">Linux</a></li>
+<li><a href="https://docs.docker.com/windows/">Windows</a></li>
+</ul>
+
+<p>For further information please refer to the <a href="https://docs.docker.com/">Docker Docs page</a></p>
+
+<p><br></p>
+
+<h2 id="toc_2">Getting in the driver&#39;s seat with Docker</h2>
+
+<h3 id="toc_3">Test your installation</h3>
+
+<p>Assuming you managed to install Docker to this point you can test your installation by running from the command line interface the following command:</p>
+
+<div><pre><code class="language-none">$ docker run hello-world</code></pre></div>
+
+<p>The output should look like</p>
+
+<div><pre><code class="language-none">Unable to find image &#39;hello-world:latest&#39; locally
+latest: Pulling from library/hello-world
+03f4658f8b78: Pull complete 
+a3ed95caeb02: Pull complete 
+Digest: sha256:8be990ef2aeb16dbcb9271ddfe2610.......
+Status: Downloaded newer image for hello-world:latest</code></pre></div>
+
+<p>If the output the see on your screen matches the one above that means you have a working Docker installation. Congrats!</p>
+
+<h3 id="toc_4">Pull an image</h3>
+
+<p>Everything starts with an image, a docker image. In order to download it and run it on your computer you need to execute:</p>
+
+<div><pre><code class="language-none">$ docker pull IMAGE_NAME</code></pre></div>
+
+<p>First you need to know what image to pull so you can run <strong><em>docker search</em></strong>. For instance, if you want to download the <strong>latest ubuntu</strong> image you can run the following commands:</p>
+
+<div><pre><code class="language-none">$ docker search ubuntu</code></pre></div>
+
+<p>You will retrieve all images matching the keyword <strong>ubuntu</strong> and now you can download the image tagged the latest by simply running the following command:</p>
+
+<div><pre><code class="language-none">$ docker pull ubuntu:latest</code></pre></div>
+
+<p>Don&#39;t believe it until you see it! 
+You can check the newly downloaded image in your local repository by executing the following command:</p>
+
+<div><pre><code class="language-none">$ docker images</code></pre></div>
+
+<p>Which will have a similar output to the one below:</p>
+
+<div><pre><code class="language-none">REPOSITORY          TAG                 IMAGE ID            CREATED             SIZE
+ubuntu              latest              14b59d36bae0        5 days ago          187.9 MB</code></pre></div>
+
+<h3 id="toc_5">Basic controlls for containers</h3>
+
+<hr>
+
+<h4 id="toc_6"><em>Run a container</em></h4>
+
+<hr>
+
+<p>Since you have already an image present in your local registry let&#39;s run that one.</p>
+
+<div><pre><code class="language-none">$ docker run ubuntu
+$</code></pre></div>
+
+<p>Don&#39;t be dissapointed if you didn&#39;t get any output this time. This is due to the fact that <strong>docker run</strong> executes an empty command in a container.</p>
+
+<p>Let&#39;s execute a command within the container, which as simple as running </p>
+
+<div><pre><code class="language-none">$ docker run -i ubuntu echo &#39;Happy Birthday Docker!&#39;
+$ Happy Birthday Docker!
+$</code></pre></div>
+
+<p>Using <em>-i</em> OPTION will execute the container in an interactive mode which allows you to see the output of the echo command.</p>
+
+<hr>
+
+<h4 id="toc_7"><em>Check container&#39;s status</em></h4>
+
+<hr>
+
+<p>You can check the status of the container created using:</p>
+
+<div><pre><code class="language-none">docker ps -a</code></pre></div>
+
+<p>The output will be similar to:</p>
+
+<div><pre><code class="language-none">CONTAINER ID        IMAGE               COMMAND                  CREATED             STATUS                     PORTS                           NAMES
+b49d4c8c06d2        ubuntu              &quot;echo &#39;Happy Birthday&quot;   9 seconds ago       Exited (0) 1 seconds ago                                   silly_galileo</code></pre></div>
+
+<p>Some useful information for going forward. In the above output please pay attention to the following columns:</p>
+
+<table>
+<thead>
+<tr>
+<th>Header Elements</th>
+<th>Description</th>
+</tr>
+</thead>
+
+<tbody>
+<tr>
+<td>CONTAINER ID</td>
+<td>Unique identifier of an instance of the image</td>
+</tr>
+<tr>
+<td>IMAGE</td>
+<td>Image name used to start the container</td>
+</tr>
+<tr>
+<td>COMMAND</td>
+<td>Command which is being/was executed</td>
+</tr>
+<tr>
+<td>STATUS</td>
+<td>Current status of the container</td>
+</tr>
+</tbody>
+</table>
+
+<hr>
+
+<h4 id="toc_8"><em>Stop a container</em></h4>
+
+<hr>
+
+<p>To stop a container, you need to execute <em>docker stop CONTAINER ID</em></p>
+
+<p>Let&#39;s give it a try, but first we need to have a running container that we can stop so we can start one.</p>
+
+<div><pre><code class="language-none">$ docker run -d ubuntu sleep 100
+$ f433174abbc8..................</code></pre></div>
+
+<p>Check the status of the container:</p>
+
+<div><pre><code class="language-none">$ docker ps -a
+CONTAINER ID        IMAGE               COMMAND                  CREATED             STATUS                      PORTS                           NAMES
+f433174abbc8        ubuntu              &quot;sleep 100&quot;              3 minutes ago       Up 10 seconds                                               high_blackwell</code></pre></div>
+
+<p>Container is running for 10 seconds or in your case the time indicated on the STATUS column.</p>
+
+<div><pre><code class="language-none">$ docker stop f433174abbc8</code></pre></div>
+
+<p>To check whether container is stopped now, run again:</p>
+
+<div><pre><code class="language-none">$ docker ps -a
+CONTAINER ID        IMAGE               COMMAND                  CREATED             STATUS                      PORTS                           NAMES
+f433174abbc8        ubuntu              &quot;sleep 100&quot;              5 minutes ago       Exited (1) 2 seconds ago                                    high_blackwell</code></pre></div>
+
+<p>Container is now stopped. </p>
+
+<p>If you want to stop all running containers you can use either of the commands below:</p>
+
+<div><pre><code class="language-none">$ docker stop $(docker ps -a -q)</code></pre></div>
+
+<p>OR</p>
+
+<div><pre><code class="language-none">$ docker ps -a -q | xargs docker stop</code></pre></div>
+
+<hr>
+
+<h4 id="toc_9">Remove a container</h4>
+
+<hr>
+
+<p>Should the container fulfiled its duties you can remove it by executing <em>docker rm</em>.</p>
+
+<p><strong>Note:</strong> Containers need to be stopped before removing them.</p>
+
+<div><pre><code class="language-none">$ docker rm f433174abbc8</code></pre></div>
+
+<p>Check again the status of containers and you will notice the container has been removed.</p>
+
+<div><pre><code class="language-none">$ docker ps -a
+CONTAINER ID        IMAGE               COMMAND             CREATED             STATUS              PORTS               NAMES
+$</code></pre></div>
+
+<p>If you want to remove all containers you can use:</p>
+
+<div><pre><code class="language-none">$ docker rm $(docker ps -a -q)</code></pre></div>
+
+<p>OR</p>
+
+<div><pre><code class="language-none">$ docker ps -a -q | xargs docker rm</code></pre></div>
+
+<p>TIPS: For stopping and removing all containers in one line:</p>
+
+<div><pre><code class="language-none">$ docker rm $(docker stop $(docker ps -a -q))</code></pre></div>
+
+<hr>
+
+<h4 id="toc_10"><em>Getting into</em> containers</h4>
+
+<hr>
+
+<p>So far so good. Things are pretty straightforward, right?</p>
+
+<p>Let&#39;s give it a spin and access the shell inside a container</p>
+
+<div><pre><code class="language-none">$ docker run -t -i ubuntu /bin/bash
+root@8d78eab8df45:/# </code></pre></div>
+
+<p>Inside the container you can run any commands you would usually run on <strong>Ubuntu Linux</strong> so feel free to look around. 
+<br></p>
+
+<p><strong>Note:</strong>
+Before ending the shell session you may want to install <strong>curl</strong> since we&#39;re planning to use it later.
+This is how you do it: </p>
+
+<div><pre><code class="language-none">root@8d78eab8df45:/# apt-get install -y curl</code></pre></div>
+
+<p><br></p>
+
+<h2 id="toc_11">Let&#39;s do some work, for real this time</h2>
+
+<h3 id="toc_12">Build your own Docker image</h3>
+
+<p>Before you start building your own Docker image you need to get familiar to few concepts.
+Docker uses a <em>Dockerfile</em> containing instructions on how to build an image. </p>
+
+<p>A full Dockerfile refence is available <a href="https://docs.docker.com/engine/reference/builder/">here</a>.</p>
+
+<p>If you can&#39;t wait to build your first image you can follow the simple guide below. </p>
+
+<p>Dockerfile is structured as follows:</p>
+
+<div><pre><code class="language-none"># FROM is the first instruction in a Dockerfile. 
+# It specifies the image used as a base for the image which is going to be built
+FROM ubuntu:latest
+
+# MAINTAINER allows you to set the author of the image
+MAINTAINER your_name &lt;your@email_address&gt;
+
+# LABEL instructions add metadata to the image. 
+LABEL &quot;My App&quot;
+LABEL &quot;version 1.0&quot;
+LABEL description=&quot;This is my first app running in a Docker container&quot; 
+
+# ENV instruction is used to set environment variables
+ENV APP_PATH /opt/app
+
+# RUN executes a command during the image building process
+RUN apt-get -y update
+RUN apt-get install -y curl
+RUN apt-get install -y git
+RUN mkdir $APP_PATH
+
+# ADD copy local/remote files to the image
+ADD ./local/app/* $APP_PATH
+
+# EXPOSE informs Docker that container listens on port 80
+EXPOSE 80</code></pre></div>
+
+<p>In order to build your first Docker image you can run the following command:</p>
+
+<div><pre><code class="language-none">$ docker build -t myapp:latest -f /path/to/dockerfile/
+$           ...
+$           ...
+$ Successfully built 606769c7653d</code></pre></div>
+
+<p>Once the build is over you can check your new Docker image:</p>
+
+<div><pre><code class="language-none">$ docker images
+REPOSITORY          TAG                 IMAGE ID            CREATED             SIZE
+myapp/latest        latest              606769c7653d        2 minutes ago       249.1 MB</code></pre></div>
+
+<p>Nevertheless, we encourage you to check the <a href="https://docs.docker.com/engine/reference/builder/">Dockerfile reference</a> to be able to build a fully capable Docker image.</p>
+
+<h2 id="toc_13">Modify Docker Voting App</h2>
+
+<h3 id="toc_14">API Specs</h3>
+
+<p>Once you finished bulding your own App you need to create an API which will listen on port 80 and will respond to a call as described below:</p>
+
+<div><pre><code class="language-none">$ telnet DOCKER_CONTAINER 80</code></pre></div>
+
+<h2 id="toc_15">Build new images</h2>
+
+<p><strong>Based on the Docker Voting App</strong></p>
+
+<p>It is now the time to build the image and incorporate the Voting App.</p>
+
+<h3 id="toc_16">Writing &quot;The&quot; Dockerfile</h3>
+
+<h2 id="toc_17">Testing your image</h2>
+
+<h2 id="toc_18">Submit new images to the DockerHub</h2>
+
+<p>Now that you have your Docker images ready you need to upload them to DockerHub. If you don&#39;t have an account yet you can create one <a href="https://hub.docker.com">here</a>.</p>
+
+<p>Once you created an account you can go back to a terminal and run </p>
+
+<div><pre><code class="language-none">$ docker login</code></pre></div>
+
+<p>Here you will be prompted for username / password / email address.</p>
+
+<h2 id="toc_19">Submit your entry in the competition</h2>
+
+<h3 id="toc_20">Submission API specs</h3>
+
+<h3 id="toc_21">Check submission status</h3>
