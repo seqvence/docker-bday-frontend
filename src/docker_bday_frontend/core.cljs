@@ -55,7 +55,11 @@
     [components/header]
     [:button {:on-click (fn [e] (.preventDefault e)
               (get-stats))} "Refresh"]
-    [:div {:id "map-container" :style {:position "relative" :width "100%" :padding-bottom "65%"}}
+    [:div {:id "map-container" :style {:position "relative" :width "100%" :padding-bottom "65%" :border-width "1px"
+                                       :border-style "solid" :border-color "#ccc #ccc #999 #ccc"
+                                       :box-shadow "rgba(64, 64, 64, 0.1) 0 2px 5px"
+                                       :-webkit-box-shadow "rgba(64, 64, 64, 0.5) 0 2px 5px"
+                                       :-moz-box-shadow "rgba(64, 64, 64, 0.5) 0 2px 5px"}}
       [rmap/map-view @dmap/map-data]]])
 
 (defn instructions []
