@@ -20,6 +20,7 @@
 (defn add-marker [submission]
   (println (str "Adding marker for " (get submission "id")))
   (let [marker {:position (get submission "coordinates")
-                :title (get submission "id")}
+                :title (get submission "id")
+                :icon "/docker.ico"}
         all-markers (conj (get @map-data :markers) marker)]
     (swap! map-data assoc :markers all-markers)))
