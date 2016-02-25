@@ -17,10 +17,14 @@
      :clustering true
      :markers #{}}))
 
+(defn infowindow-content [id name twitter]
+  (str "<div id='info-" id "'>Name: " name "<br>Twitter: " twitter "</div>"))
+
 (defn add-marker [submission]
-  (println (str "Adding marker for " (get submission "id")))
+  ;(println (str "Adding marker for " (get submission "id")))
   (let [marker {:position (get submission "coordinates")
                 :title (get submission "id")
-                :icon "/docker.ico"}
+                :icon "/docker.ico"
+                :infowindow (infowindow-content (get submission "id") (get submission "name") (get submission "twitter"))}
         all-markers (conj (get @map-data :markers) marker)]
     (swap! map-data assoc :markers all-markers)))
