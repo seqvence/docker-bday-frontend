@@ -28,9 +28,11 @@
 
 (defn add-marker [submission]
   ;(println (str "Adding marker for " (get submission "id")))
-  (let [marker {:position (get submission "coordinates")
+  (let [icon {:url "/docker.ico"
+              :scaledSize (new google.maps.Size 32 32)}
+        marker {:position (get submission "coordinates")
                 :title (get submission "id")
-                :icon "/docker.ico"
+                :icon (clj->js icon)
                 :infowindow (infowindow-content (get submission "id") (get submission "name") (get submission "twitter"))}
         all-markers (conj (get @map-data :markers) marker)]
     (swap! map-data assoc :markers all-markers)))
