@@ -23,7 +23,7 @@
 ;; Backend comm.
 
 (defn response-handler [response]
-  (println (str "Received response from backend: " response))
+  ;(println (str "Received response from backend: " response))
   (swap! app-state assoc :stats response)
   (doseq [submission (get response "submissions")]
     (dmap/add-marker submission)))
