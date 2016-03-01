@@ -2,6 +2,7 @@
   (:require-macros [cljs.core.async.macros :refer [go go-loop]])
   (:require [cljs.core.async :refer [>! <! chan put!]]
             [docker-bday-frontend.map :as dmap]
+            [docker-bday-frontend.chart :as dchart]
             [docker-bday-frontend.components :as components]
             [reagent.core :as reagent]
             [reagent.session :as session]
@@ -60,7 +61,9 @@
                                        :box-shadow "rgba(64, 64, 64, 0.1) 0 2px 5px"
                                        :-webkit-box-shadow "rgba(64, 64, 64, 0.5) 0 2px 5px"
                                        :-moz-box-shadow "rgba(64, 64, 64, 0.5) 0 2px 5px"}}
-      [rmap/map-view @dmap/map-data]]])
+      [rmap/map-view @dmap/map-data]]
+    [:div {:id "chart-container"}
+      [dchart/d3-inner @dchart/chart-state]]])
 
 (defn instructions []
   [:div

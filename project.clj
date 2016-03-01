@@ -17,7 +17,8 @@
                  [cljs-ajax "0.3.14"]
                  [figwheel-sidecar "0.5.0"]
                  [cljsjs/google-maps "3.18-1"]
-                 [gmaps-cljs "0.0.2"]]
+                 [gmaps-cljs "0.0.2"]
+                 [cljsjs/d3 "3.5.7-1"]]
 
   :plugins [[lein-cljsbuild "1.1.2" :exclusions [[org.clojure/clojure]]]]
 
@@ -34,6 +35,7 @@
 
                 :compiler {:main docker-bday-frontend.core
                            :asset-path "js/compiled/out"
+                           :cache-analysis true
                            :output-to "resources/public/js/compiled/docker_bday_frontend.js"
                            :output-dir "resources/public/js/compiled/out"
                            :foreign-libs [{:file "markerclusterer/markerclusterer.js"
