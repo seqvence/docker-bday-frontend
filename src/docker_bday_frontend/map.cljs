@@ -17,12 +17,6 @@
      :clustering true
      :marker_icon {:url "/docker.ico"
             :scaledSize (new google.maps.Size 32 32)}
-     :clustering_styles [{:url "/cluster2.png"
-                          :height 50
-                          :width 50}
-                         {:url "/cluster3.png"
-                          :height 100
-                          :width 100}]
      :markers #{}}))
 
 (defn infowindow-content [id name twitter]
