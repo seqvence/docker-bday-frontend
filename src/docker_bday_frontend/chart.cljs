@@ -4,16 +4,6 @@
 
 (enable-console-print!)
 
-(def chart-state (reagent/atom {:name "Language stats"
-                                :x 35
-                                :y 35
-                                :r 15
-                                :color "red"}))
-
-(def chart-data [{:votes 10 :label "Python"}
-                 {:votes 30 :label "dfdf"}
-                 {:votes 150 :label "sdfsdfw"}])
-
 (def width 360)
 (def height 360)
 (def radius (/ (.min js/Math width height) 2))
@@ -45,21 +35,19 @@
 ;              (append "path")
 ;              (attr "d" arc)))
 
-(println (clj->js chart-data))
 
 (defn d3-render [_]
   [:div [:svg {:width 400 :height 400}]])
 
 
 (defn d3-did-mount [this]
-  (println "mounting charts")
-  (let [d3data (clj->js (reagent/state this))]
+  (let [d3data (clj->js (:languages (reagent/state this)))]
     (.. js/d3
         (select "svg")
         (append "g")
         (attr "transform" (str "translate(" (/ width 2) "," (/ height 2) ")"))
         (selectAll "path")
-        (data (pie (clj->js chart-data)))
+        (data (pie d3data))
         (enter)
         (append "path")
         (attr "d" arc)
@@ -68,13 +56,18 @@
 
 (defn d3-did-update [this]
   (let [[_ data] (reagent/argv this)
-        d3data (clj->js data)]
+        d3data (clj->js (get data :languages))]
     (.. js/d3
-        (selectAll "circle")
-        (data d3data)
-        (attr "cx" (fn [d] (.-x d)))
-        (attr "cy" (fn [d] (.-y d)))
-        (attr "r" (fn [d] (.-r d))))))
+        (select "svg")
+        (append "g")
+        (attr "transform" (str "translate(" (/ width 2) "," (/ height 2) ")"))
+        (selectAll "path")
+        (data (pie d3data))
+        (enter)
+        (append "path")
+        (attr "d" arc)
+        (attr "fill" (fn [d i]
+                       (color (.-label (.-data d))))))))
 
 (defn d3-inner [data]
   (reagent/create-class {:reagent-render d3-render

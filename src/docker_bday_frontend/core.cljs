@@ -16,7 +16,7 @@
 (enable-console-print!)
 
 ; ugly variable required to reference the map
-(defonce app-state (reagent/atom {:stats "Initial state" :instructions "Instructions content"}))
+(defonce app-state (reagent/atom {:stats {"submissions" [] "votes" {:languages [{:label "Python" :votes 1}]}} :instructions "Instructions content"}))
 
 
 
@@ -24,8 +24,9 @@
 ;; Backend comm.
 
 (defn response-handler [response]
-  ;(println (str "Received response from backend: " response))
-  (swap! app-state assoc :stats response)
+  (println (str "Received response from backend: " response))
+  (swap! app-state assoc-in [:stats "submissions"] (get response "submissions"))
+  (swap! app-state assoc-in [:stats "votes" :languages] (into [] (for [[k v] (get response "votes")] {:label k :votes v})))
   (doseq [submission (get response "submissions")]
     (dmap/add-marker submission)))
 
@@ -51,6 +52,7 @@
 ;;--------------------------
 ;; Pages
 
+
 (defn home-page []
   [:div
     [components/header]
@@ -63,7 +65,7 @@
                                        :-moz-box-shadow "rgba(64, 64, 64, 0.5) 0 2px 5px"}}
       [rmap/map-view @dmap/map-data]]
     [:div {:id "chart-container"}
-      [dchart/d3-inner @dchart/chart-state]]])
+      [dchart/d3-inner (get-in @app-state [:stats "votes"])]]])
 
 (defn instructions []
   [:div
