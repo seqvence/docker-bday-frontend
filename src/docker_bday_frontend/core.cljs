@@ -24,7 +24,7 @@
 ;; Backend comm.
 
 (defn response-handler [response]
-  ;(println (str "Received response from backend: " response))
+  (println (str "Received response from backend: " response))
   (swap! app-state assoc-in [:stats "submissions"] (get response "submissions"))
   (swap! app-state assoc-in [:stats "votes" :languages] (into [] (for [[k v] (get response "votes")] {:label k :votes v})))
   (doseq [submission (get response "submissions")]
@@ -64,7 +64,8 @@
                                        :-webkit-box-shadow "rgba(64, 64, 64, 0.5) 0 2px 5px"
                                        :-moz-box-shadow "rgba(64, 64, 64, 0.5) 0 2px 5px"}}
       [rmap/map-view @dmap/map-data]]
-    [:div {:id "chart-container"}
+    [:div {:id "chart" }
+      [:h4 {:class "text-muted"} "Programming language distribution"]
       [dchart/d3-inner (get-in @app-state [:stats "votes"])]]])
 
 (defn instructions []
