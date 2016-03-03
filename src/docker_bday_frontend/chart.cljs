@@ -10,6 +10,9 @@
 (def height 360)
 (def radius (/ (.min js/Math width height) 2))
 
+(def legendRectSize 18)
+(def legendSpacing 4)
+
 (def color (js/d3.scale.category20b.))
 
 (def arc  (.. (d3.svg.arc.)
@@ -49,9 +52,35 @@
                  (.-votes (.-data d)))))
     g))
 
+(defn legend [parent]
+  (let [legend (-> parent
+                    (.selectAll ".legend")
+                    (.data (.domain color))
+                    (.enter)
+                    (.append "g")
+                    (.attr "class" "legend")
+                    (.attr "transform" (fn [d i]
+                                         (let [height (+ legendRectSize legendSpacing)
+                                               offset (/ (* height (.-length (.domain color))) 2)
+                                               horz (* 15 legendRectSize)
+                                               vert (* i (- height offset))]
+                                           (str "translate(" horz "," vert ")")))))]
+    (-> legend
+        (.append "rect")
+        (.attr "width" legendRectSize)
+        (.attr "height" legendRectSize)
+        (.style "fill" color)
+        (.style "stroke" color))
+    (-> legend
+        (.append "text")
+        (.attr "x" (+ legendRectSize legendSpacing))
+        (.attr "y" (- legendRectSize legendSpacing))
+        (.text (fn [d] d)))
+    legend))
+
 
 (defn d3-render [_]
-  [:div [:svg {:width width :height height}]])
+  [:div [:svg {:width 700 :height 400}]])
 
 
 (defn d3-did-mount [this]
@@ -59,15 +88,17 @@
   (let [d3data (clj->js (:languages (reagent/state this)))
         chart  (svg)]
     (swap! charts assoc (reagent/dom-node this) chart)
-    (path chart d3data)))
+    (path chart d3data)
+    (legend chart)))
 
 (defn d3-did-update [this]
   (println "updating chart")
   (let [[_ data] (reagent/argv this)
         d3data (clj->js (get data :languages))
-        chart (get @charts (reagent/dom-node this))]
-    (-> (svg)
-        (path d3data))))
+        chart (svg)]
+    (-> chart
+        (path d3data))
+    (legend chart)))
 
 (defn d3-inner [data]
   (reagent/create-class {:reagent-render d3-render
