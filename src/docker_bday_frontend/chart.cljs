@@ -11,8 +11,8 @@
 (def color (js/d3.scale.category20b.))
 
 (def arc  (.. (d3.svg.arc.)
-              (outerRadius (- radius 10))
-              (innerRadius 0)))
+              (outerRadius radius)
+              (innerRadius (- radius 75))))
 
 ;(def labelArc (.. (d3.svg.arc.)
 ;                  (outerRadius (- radius 40))
@@ -23,17 +23,32 @@
              (value (fn [d]
                       (.-votes d)))))
 
-;(def svg (.. js/d3
-;             (select "svg")
-;             (append "g")
-;             (attr "transform" (str "translate(" (/ width 2) "," (/ height 2) ")"))))
-;
-;(def path (.. svg
-;              (selectAll "path")
-;              (data (pie (clj->js chart-data)))
-;              (enter)
-;              (append "path")
-;              (attr "d" arc)))
+(def tooltip (.. js/d3
+                 (select "chart-container")
+                 (append "div")
+                 (attr "class" "tooltip")
+                 (append "div")
+                 (attr "class" "label")
+                 (append "div")
+                 (attr "class" "count")
+                 (append "div")
+                 (attr "class" "percent")))
+
+(defn svg []
+  (-> js/d3
+   (.select "svg")
+   (.append "g")
+   (.attr "transform" (str "translate(" (/ width 2) "," (/ height 2) ")"))))
+
+(defn path [parent data]
+  (-> parent
+    (.selectAll "path")
+    (.data (pie data))
+    (.enter)
+    (.append "path")
+    (.attr "d" arc)
+    (.attr "fill" (fn [d i]
+                    (color (.-label (.-data d)))))))
 
 
 (defn d3-render [_]
@@ -42,32 +57,14 @@
 
 (defn d3-did-mount [this]
   (let [d3data (clj->js (:languages (reagent/state this)))]
-    (.. js/d3
-        (select "svg")
-        (append "g")
-        (attr "transform" (str "translate(" (/ width 2) "," (/ height 2) ")"))
-        (selectAll "path")
-        (data (pie d3data))
-        (enter)
-        (append "path")
-        (attr "d" arc)
-        (attr "fill" (fn [d i]
-                       (color (.-label (.-data d))))))))
+    (-> (svg)
+        (path d3data))))
 
 (defn d3-did-update [this]
   (let [[_ data] (reagent/argv this)
         d3data (clj->js (get data :languages))]
-    (.. js/d3
-        (select "svg")
-        (append "g")
-        (attr "transform" (str "translate(" (/ width 2) "," (/ height 2) ")"))
-        (selectAll "path")
-        (data (pie d3data))
-        (enter)
-        (append "path")
-        (attr "d" arc)
-        (attr "fill" (fn [d i]
-                       (color (.-label (.-data d))))))))
+    (-> (svg)
+        (path d3data))))
 
 (defn d3-inner [data]
   (reagent/create-class {:reagent-render d3-render
