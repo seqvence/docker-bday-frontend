@@ -13,7 +13,7 @@
 (def legendRectSize 18)
 (def legendSpacing 4)
 
-(def color (js/d3.scale.category20b.))
+(def color (js/d3.scale.category20.))
 
 (def arc  (.. (d3.svg.arc.)
               (outerRadius radius)))
@@ -62,8 +62,8 @@
                     (.attr "transform" (fn [d i]
                                          (let [height (+ legendRectSize legendSpacing)
                                                offset (/ (* height (.-length (.domain color))) 2)
-                                               horz (* 15 legendRectSize)
-                                               vert (* i (- height offset))]
+                                               horz 270
+                                               vert (- (* i height) offset)]
                                            (str "translate(" horz "," vert ")")))))]
     (-> legend
         (.append "rect")
