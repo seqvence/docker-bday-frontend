@@ -37,13 +37,15 @@
   (let [g (-> parent
               (.selectAll "path")
               (.data (pie data))
-              (.enter))]
+              )]
     (-> g
+        (.enter)
         (.append "path")
         (.attr "d" arc)
         (.attr "fill" (fn [d i]
                         (color (.-label (.-data d))))))
     (-> g
+        (.enter)
         (.append "text")
         (.attr "transform" (fn [d]
                              (str "translate(" (.centroid labelArc d) ")")))
@@ -95,7 +97,7 @@
   (println "updating chart")
   (let [[_ data] (reagent/argv this)
         d3data (clj->js (get data :languages))
-        chart (svg)]
+        chart (get @charts (reagent/dom-node this))]
     (-> chart
         (path d3data))
     (legend chart)))

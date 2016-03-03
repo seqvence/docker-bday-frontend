@@ -16,7 +16,7 @@
 (enable-console-print!)
 
 ; ugly variable required to reference the map
-(defonce app-state (reagent/atom {:stats {"submissions" [] "votes" {:languages [{:label "Python" :votes 1}]}} :instructions "Instructions content"}))
+(defonce app-state (reagent/atom {:stats {"submissions" [] "votes" {:languages []}} :instructions "Instructions content"}))
 
 
 
@@ -24,7 +24,7 @@
 ;; Backend comm.
 
 (defn response-handler [response]
-  (println (str "Received response from backend: " response))
+  ;(println (str "Received response from backend: " response))
   (swap! app-state assoc-in [:stats "submissions"] (get response "submissions"))
   (swap! app-state assoc-in [:stats "votes" :languages] (into [] (for [[k v] (get response "votes")] {:label k :votes v})))
   (doseq [submission (get response "submissions")]
