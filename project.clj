@@ -18,7 +18,8 @@
                  [figwheel-sidecar "0.5.0"]
                  [cljsjs/google-maps "3.18-1"]
                  [gmaps-cljs "0.0.2"]
-                 [cljsjs/d3 "3.5.7-1"]]
+                 [cljsjs/d3 "3.5.7-1"]
+                 [strokes "0.5.2-SNAPSHOT"]]
 
   :plugins [[lein-cljsbuild "1.1.2" :exclusions [[org.clojure/clojure]]]]
 

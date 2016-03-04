@@ -36,8 +36,11 @@
 (defn path [parent data]
   (let [g (-> parent
               (.selectAll "path")
-              (.data (pie data))
-              )]
+              (.data (pie data)))]
+    (-> g
+        (.select "text")
+        (.attr "value" (fn [d]
+                 (.-votes (.-data d)))))
     (-> g
         (.enter)
         (.append "path")

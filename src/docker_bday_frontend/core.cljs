@@ -3,6 +3,7 @@
   (:require [cljs.core.async :refer [>! <! chan put!]]
             [docker-bday-frontend.map :as dmap]
             [docker-bday-frontend.chart :as dchart]
+            [docker-bday-frontend.chart_strokes :as schart]
             [docker-bday-frontend.components :as components]
             [reagent.core :as reagent]
             [reagent.session :as session]
@@ -64,9 +65,9 @@
                                        :-webkit-box-shadow "rgba(64, 64, 64, 0.5) 0 2px 5px"
                                        :-moz-box-shadow "rgba(64, 64, 64, 0.5) 0 2px 5px"}}
       [rmap/map-view @dmap/map-data]]
-    [:div {:id "chart" }
+    [:div {:id "chart-container" }
       [:h4 {:class "text-muted"} "Programming language distribution"]
-      [dchart/d3-inner (get-in @app-state [:stats "votes"])]]])
+      [schart/d3-inner  (get-in @app-state [:stats "votes"])]]])
 
 (defn instructions []
   [:div
