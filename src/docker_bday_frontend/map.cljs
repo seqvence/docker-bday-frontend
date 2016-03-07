@@ -15,8 +15,10 @@
      :zoom 2
      :mapTypeId google.maps.MapTypeId.ROADMAP
      :clustering true
-     :marker_icon {:url "/docker.ico"
-            :scaledSize (new google.maps.Size 32 32)}
+     :clustering_styles [{:url "/cluster_docker.png"
+                          :anchor [0 10]
+                          :height 31
+                          :width 58}]
      :markers #{}}))
 
 (defn infowindow-content [id name twitter]
@@ -26,7 +28,6 @@
   ;(println (str "Adding marker for " (get submission "id")))
   (let [marker {:position (get submission "coordinates")
                 :title (get submission "id")
-                :icon (:marker_icon @map-data)
                 :infowindow (infowindow-content (get submission "id") (get submission "name") (get submission "twitter"))}
         all-markers (conj (get @map-data :markers) marker)]
     (swap! map-data assoc :markers all-markers)))

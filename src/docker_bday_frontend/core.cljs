@@ -62,7 +62,7 @@
                                        :-moz-box-shadow "rgba(64, 64, 64, 0.5) 0 2px 5px"}}
       [rmap/map-view @dmap/map-data]]
     [:div {:id "chart-container" }
-      [:h4 {:class "text-muted"} "Programming language distribution"]
+      [:h4 {:class "text-muted"} "Programming language usage"]
       [schart/d3-inner  (get-in @app-state [:stats "votes"])]]])
 
 (defn instructions []
