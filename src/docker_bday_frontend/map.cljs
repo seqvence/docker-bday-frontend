@@ -12,6 +12,8 @@
   (reagent/atom
     {:center {:lat 37.7833 :lng -30.431297}
      :disableDefaultUI false
+     :styles [{:featureType "poi"
+               :stylers [{:visibility "off"}]}]
      :zoom 2
      :mapTypeId google.maps.MapTypeId.ROADMAP
      :clustering true
