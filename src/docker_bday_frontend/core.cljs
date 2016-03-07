@@ -11,15 +11,13 @@
             [goog.history.EventType :as EventType]
             [secretary.core :as secretary :include-macros true]
             [ajax.core :refer [GET POST]]
-            [gmaps.components.reagent.map :as rmap])
+            [gmaps.components.reagent.map :as rmap]
+            [rigui.core :refer [start later! every! stop cancel!]])
   (:import goog.History))
 
 (enable-console-print!)
 
-; ugly variable required to reference the map
 (defonce app-state (reagent/atom {:stats {"submissions" [] "votes" {:languages []}} :instructions "Instructions content"}))
-
-
 
 ;;-------------------------
 ;; Backend comm.
@@ -57,8 +55,6 @@
 (defn home-page []
   [:div
     [components/header]
-    [:button {:on-click (fn [e] (.preventDefault e)
-              (get-stats))} "Refresh"]
     [:div {:id "map-container" :style {:position "relative" :width "100%" :padding-bottom "65%" :border-width "1px"
                                        :border-style "solid" :border-color "#ccc #ccc #999 #ccc"
                                        :box-shadow "rgba(64, 64, 64, 0.1) 0 2px 5px"
@@ -104,6 +100,10 @@
 ;; -------------------------
 ;; Initialize app
 
+
+(def stats-timer (start 10 8 get-stats))
+
+
 (defn mount-root []
   (reagent/render [current-page] (.getElementById js/document "app")))
 
@@ -111,6 +111,10 @@
   (hook-browser-navigation!)
   (mount-root)
   (get-stats)
+  (every! stats-timer "test"
+          0;; initial delay
+          3000 ;; interval
+          )
   (get-instructions))
 
 (init!)
