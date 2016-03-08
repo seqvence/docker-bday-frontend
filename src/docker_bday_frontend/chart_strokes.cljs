@@ -32,12 +32,12 @@
           (-> sec
               (.append "bar"))
           (-> sec
-              (.append "description")))))
+              (.append "description")
+              (.attr "class" "text-muted")))))
 
     (-> divs
         (.select "bar")
         (.style "width" (fn [d]
-                          (println d)
                           (str (x (.-votes d)) "px")))
         (.text (fn [d] (.-votes d))))
 
@@ -50,7 +50,7 @@
   [:div {:class "chart"}])
 
 (defn d3-did-mount [this]
-  (println "creating chart")
+  (println "info: creating chart")
   (let [chart  (svg)
         d3data (:languages (reagent/state this))]
     (swap! charts assoc (reagent/dom-node this) chart)
@@ -58,7 +58,7 @@
         (updates d3data))))
 
 (defn d3-did-update [this]
-  (println "updating chart")
+  (println "info: updating chart")
   (let [[_ data] (reagent/argv this)
         d3data (get data :languages)
         chart (get @charts (reagent/dom-node this))]
