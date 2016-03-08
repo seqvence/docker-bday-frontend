@@ -32,7 +32,8 @@
      :markers #{}}))
 
 (defn infowindow-content [id name twitter]
-  (str "<div id='info-" id "'>Name: " name "<br>Twitter: " twitter "</div>"))
+  (let [twitter-link (str "https://twitter.com/" (clojure.string/replace-first twitter "@" ""))]
+    (str "<div id='info-" id "'>Name: " name "<br>Twitter: <a href='" twitter-link "'>"  twitter "</a></div>")))
 
 (defn add-marker [submission]
   ;(println (str "Adding marker for " (get submission "id")))
