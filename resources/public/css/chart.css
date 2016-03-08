@@ -1,0 +1,29 @@
+#chart-container {
+    padding-top: 3em;
+}
+
+.chart section {
+    width: 100%;
+    margin: auto;
+    padding: 1px;
+}
+
+.chart section bar {
+    font: 10px sans-serif;
+    background-color: steelblue;
+    text-align: right;
+    padding: 3px;
+    margin: 1px;
+    color: white;
+    float: left;
+}
+
+.chart section description {
+    font: 10px sans-serif;
+    background-color: white;
+    text-align: left;
+    color: black;
+    padding: 3px;
+    margin: 1px;
+    #float:left;
+}
