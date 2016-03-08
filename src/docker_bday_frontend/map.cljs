@@ -18,6 +18,14 @@
      :mapTypeId google.maps.MapTypeId.ROADMAP
      :clustering true
      :clustering_styles [{:url "/cluster_docker.png"
+                          :anchor [0 14]
+                          :height 31
+                          :width 62}
+                         {:url "/cluster_docker.png"
+                          :anchor [0 12]
+                          :height 31
+                          :width 60}
+                         {:url "/cluster_docker.png"
                           :anchor [0 10]
                           :height 31
                           :width 58}]
