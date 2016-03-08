@@ -10,7 +10,7 @@
 
 .chart section bar {
     font: 10px sans-serif;
-    background-color: steelblue;
+    background-color: #1DA0CC;
     text-align: right;
     padding: 3px;
     margin: 1px;
@@ -22,8 +22,9 @@
     font: 10px sans-serif;
     background-color: white;
     text-align: left;
-    color: black;
+    #color: black;
     padding: 3px;
     margin: 1px;
+    font-weight: bold;
     #float:left;
 }
