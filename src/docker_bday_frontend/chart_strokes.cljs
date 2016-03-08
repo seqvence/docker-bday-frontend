@@ -16,7 +16,7 @@
 
 (defn updates [svg data]
   (let [divs (-> svg
-             (.selectAll "div")
+             (.selectAll "section")
              (.data (clj->js data)))
         max_vote (apply max (map :votes data))
         domain (clj->js [0 max_vote])
@@ -26,16 +26,25 @@
               (.range range))]
 
     (-> divs
+        (.enter)
+        (.append "section")
+        ((fn [sec]
+          (-> sec
+              (.append "bar"))
+          (-> sec
+              (.append "description")))))
+
+    (-> divs
+        (.select "bar")
         (.style "width" (fn [d]
+                          (println d)
                           (str (x (.-votes d)) "px")))
         (.text (fn [d] (.-votes d))))
 
     (-> divs
-        (.enter)
-        (.append "div")
-        (.style "width" (fn [d]
-                          (str (x (.-votes d)) "px")))
-        (.text (fn [d] (.-votes d))))))
+        (.select "description")
+        (.text (fn [d] (.-label d))))))
+
 
 (defn d3-render [_]
   [:div {:class "chart"}])
