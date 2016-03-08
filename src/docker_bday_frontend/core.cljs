@@ -36,7 +36,6 @@
   (println (str "something bad happened: " status " " status-text)))
 
 (defn get-stats []
-  (println (str "Retrieving stats"))
   (GET "/stats"
        {:handler response-handler
         :error-handler error-handler
