@@ -10,6 +10,8 @@
 (def height 500)
 (def max_bar_width 420)
 
+(def color (d3.scale.category20.))
+
 (defn svg []
   (-> d3 (.select ".chart")
          (.attr {:width width :height height})))
@@ -30,7 +32,9 @@
         (.append "section")
         ((fn [sec]
           (-> sec
-              (.append "bar"))
+              (.append "bar")
+              (.style "background-color" (fn [d i]
+                                          (color (.-label d)))))
           (-> sec
               (.append "description")
               (.attr "class" "text-muted")))))
