@@ -10,7 +10,7 @@
                  [org.clojure/clojurescript "1.7.170"]
                  [org.clojure/core.async "0.2.374"
                   :exclusions [org.clojure/tools.reader]]
-                 [reagent "0.5.1"]
+                 [reagent "0.6.0-alpha"]
                  [reagent-utils "0.1.5"]
                  [reagent-forms "0.5.9"]
                  [secretary "1.2.3"]
@@ -20,7 +20,8 @@
                  [gmaps-cljs "0.0.2"]
                  [cljsjs/d3 "3.5.7-1"]
                  [strokes "0.5.2-SNAPSHOT"]
-                 [rigui "0.5.0"]]
+                 [rigui "0.5.0"]
+                 [cljsjs/react-bootstrap "0.28.1-1"]]
 
   :plugins [[lein-cljsbuild "1.1.2" :exclusions [[org.clojure/clojure]]]]
 
