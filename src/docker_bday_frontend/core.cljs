@@ -24,7 +24,7 @@
 ;; Backend comm.
 
 (defn response-handler [response]
-  (println (str "Received response from backend: " response))
+  ;(println (str "Received response from backend: " response))
   (swap! app-state assoc-in [:stats "submissions"] (get response "submissions"))
   (swap! app-state assoc-in [:stats "votes" :languages] (into [] (for [[k v] (get response "votes")] {:label k :votes v})))
   (doseq [submission (get response "submissions")]
@@ -38,14 +38,16 @@
 
 (defn submission-handler [response]
   (println "Received submission information")
+  (println response)
   (swap! app-state assoc :submission-info response))
 
-(defn get-submission [id]
-(GET (str "/competition/" id)
-     {:handler submission-handler
-      :error-handler error-handler
-      :format :json
-      :response-format :json}))
+(defn get-submission [id submission-handler]
+  (println "Getting info for " id)
+  (GET (str "/competition/" id)
+       {:handler submission-handler
+        :error-handler error-handler
+        :format :json
+        :response-format :json}))
 
 (defn get-stats []
   (GET "/stats"
@@ -68,11 +70,6 @@
   [:div
     [components/header]
     [components/submission-modal get-submission app-state]
-    [Button {:bsSize "small"
-             :bsStyle "primary"
-             :on-click (fn []
-                         (swap! app-state assoc :show-modal true))}
-     "Check submission"]
     [:div {:id "map-container" :style {:position "relative" :width "100%" :padding-bottom "65%" :border-width "1px"
                                        :border-style "solid" :border-color "#ccc #ccc #999 #ccc"
                                        :box-shadow "rgba(64, 64, 64, 0.1) 0 2px 5px"
