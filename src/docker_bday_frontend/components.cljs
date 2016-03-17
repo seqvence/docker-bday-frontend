@@ -13,11 +13,10 @@
   [:div {:class "header clearfix"}
    [:nav
      [:ul {:class "nav nav-pills pull-right"}
-      [:li [:a {:href "#/"} "Home"]]
-      [:li [:a {:href "#/instructions"} "Instructions"]]]]
+      [:li [:a {:target "_blank"  :href "https://github.com/docker/docker-birthday-3/blob/master/tutorial.md"} "Tutorial"]]]]
    [:a {:href "#" :class "pull-left" }
     [:img {:src "/birthday.jpg" :height 50}]]
-   [:h3 {:class "text-muted"} "Docker birthday challenge"]])
+   [:h3 {:class "text-muted"} "Docker Birthday #3"]])
 
 (defn submission-modal [get-submission app-state]
   (let [submission-id (reagent/atom nil)

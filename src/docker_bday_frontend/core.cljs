@@ -80,11 +80,6 @@
       [:h4 {:class "text-muted"} "Programming language usage"]
       [schart/d3-inner  (get-in @app-state [:stats "votes"])]]])
 
-(defn instructions []
-  [:div
-   [components/header]
-   [:div {:dangerouslySetInnerHTML {:__html (get @app-state :instructions)}}]])
-
 
 (defn current-page []
   [:div [(session/get :current-page)]])
@@ -96,10 +91,6 @@
 
 (secretary/defroute "/" []
                     (session/put! :current-page home-page))
-
-(secretary/defroute "/instructions" []
-                    (session/put! :current-page instructions))
-
 
 ;; -------------------------
 ;; History
