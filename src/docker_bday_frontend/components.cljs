@@ -71,4 +71,4 @@
             [:dt "Docker images"]
             [:dd (string/join "," (get @submission-info "repo"))]
             [:dt "Tweet link"]
-            [:dd [:a {:href (get @submission-info "tweetmsg")} "spread the love!"]]]]]]])))
+            [:dd [:a {:href (get @submission-info "tweetmsg")} "Share with your friends"]]]]]]])))
