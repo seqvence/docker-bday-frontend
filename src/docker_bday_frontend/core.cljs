@@ -38,7 +38,6 @@
 
 (defn submission-handler [response]
   (println "Received submission information")
-  (println response)
   (swap! app-state assoc :submission-info response))
 
 (defn get-submission [id submission-handler]
@@ -69,6 +68,10 @@
 (defn home-page []
   [:div
     [components/header]
+    [:a {:href "https://twitter.com/intent/tweet?text=Just%20completed%20the%20%23dockerbday%20training!%20Built%2C%20shipped%20%26%20ran%20my%20first%20app%20using%20%23docker&via=docker&url=http%3A%2F%2Fdocker.party"
+         :target "_blank"}
+
+     [:img {:src "/dockerbday_tweet_button3.png" :class "img-responsive center-block" :style {:width "60%" :height "60%"}}]]
     [components/submission-modal get-submission app-state]
     [:div {:id "map-container" :style {:position "relative" :width "100%" :padding-bottom "65%" :border-width "1px"
                                        :border-style "solid" :border-color "#ccc #ccc #999 #ccc"
