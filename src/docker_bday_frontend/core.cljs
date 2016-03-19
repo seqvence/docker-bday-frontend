@@ -109,6 +109,18 @@
 ;; -------------------------
 ;; Initialize app
 
+(def clustering_styles  [{:url "/cluster_docker.png"
+                          :anchor [0 14]
+                          :height 31
+                          :width 62}
+                         {:url "/cluster_docker.png"
+                          :anchor [0 12]
+                          :height 31
+                          :width 60}
+                         {:url "/cluster_docker.png"
+                          :anchor [0 10]
+                          :height 31
+                          :width 58}])
 
 (def stats-timer (start 10 8 get-stats))
 
@@ -117,6 +129,7 @@
   (reagent/render [current-page] (.getElementById js/document "app")))
 
 (defn init! []
+  (swap! dmap/map-data assoc :clustering_styles clustering_styles)
   (hook-browser-navigation!)
   (mount-root)
   (get-stats)
