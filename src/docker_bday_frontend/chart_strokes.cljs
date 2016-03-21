@@ -22,7 +22,7 @@
              (.data (clj->js data)))
         max_vote (apply max (map :votes data))
         domain (clj->js [0 max_vote])
-        range (clj->js [0 max_bar_width])
+        range (clj->js [7 max_bar_width])
         x (-> (d3.scale.linear.)
               (.domain domain)
               (.range range))]
