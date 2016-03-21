@@ -8,7 +8,7 @@
 ;;
 ;; Map state
 ;;
-(def map-data
+(def mapdata
   (reagent/atom
     {:center {:lat 37.7833 :lng -30.431297}
      :disableDefaultUI false
@@ -28,5 +28,5 @@
   (let [marker {:position (get submission "coordinates")
                 :title (get submission "id")
                 :infowindow (infowindow-content (get submission "id") (get submission "name") (get submission "twitter"))}
-        all-markers (conj (get @map-data :markers) marker)]
-    (swap! map-data assoc :markers all-markers)))
+        all-markers (conj (get @mapdata :markers) marker)]
+    (swap! mapdata assoc :markers all-markers)))

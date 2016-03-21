@@ -46,35 +46,17 @@
                                            :provides ["markerclusterer"]}]
                            :source-map-timestamp true}}
 
-               ;{:id "dev-map"
-               ; :source-paths ["src"  "checkouts/gmaps-cljs/src"]
-               ;
-               ; ;; If no code is to be run, set :figwheel true for continued automagical reloading
-               ; :figwheel {:on-jsload "docker-bday-frontend.core_map/on-js-reload"}
-               ;
-               ; :compiler {:main docker-bday-frontend.core
-               ;            :asset-path "js/compiled/out"
-               ;            :cache-analysis true
-               ;            :output-to "resources/public/js/compiled/docker_bday_frontend_map.js"
-               ;            :output-dir "resources/public/js/compiled/out"
-               ;            :foreign-libs [{:file "markerclusterer/markerclusterer.js"
-               ;                            :provides ["markerclusterer"]}]
-               ;            :source-map-timestamp true}}
-               ;; This next build is an compressed minified build for
-               ;; production. You can build this with:
-               ;; lein cljsbuild once min
+               ; This next build is an compressed minified build for
+               ; production. You can build this with:
+               ; lein cljsbuild once min
+
                {:id "min"
                 :source-paths ["src" "checkouts/gmaps-cljs/src"]
                 :compiler {:output-to "resources/public/js/compiled/docker_bday_frontend.min.js"
                            :main docker-bday-frontend.core
                            :optimizations :whitespace
                            :pretty-print false}}
-               {:id "min-map"
-                :source-paths ["src" "checkouts/gmaps-cljs/src"]
-                :compiler {:output-to "resources/public/js/compiled/docker_bday_frontend_map.min.js"
-                           :main docker-bday-frontend.core
-                           :optimizations :whitespace
-                           :pretty-print false}}]}
+               ]}
 
   :figwheel {;; :http-server-root "public" ;; default and assumes "resources"
              ;; :server-port 3449 ;; default

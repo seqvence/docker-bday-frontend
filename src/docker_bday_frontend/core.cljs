@@ -78,7 +78,7 @@
                                        :box-shadow "rgba(64, 64, 64, 0.1) 0 2px 5px"
                                        :-webkit-box-shadow "rgba(64, 64, 64, 0.5) 0 2px 5px"
                                        :-moz-box-shadow "rgba(64, 64, 64, 0.5) 0 2px 5px"}}
-      [rmap/map-view @dmap/map-data]]
+      [rmap/map-view @dmap/mapdata]]
     [:div {:id "chart-container" }
       [:h4 {:class "text-muted"} "Programming language usage"]
       [schart/d3-inner  (get-in @app-state [:stats "votes"])]]])
@@ -109,7 +109,7 @@
 ;; -------------------------
 ;; Initialize app
 
-(def clustering_styles  [{:url "/cluster_docker.png"
+(def clustering_stylez  [{:url "/cluster_docker.png"
                           :anchor [0 14]
                           :height 31
                           :width 62}
@@ -129,7 +129,7 @@
   (reagent/render [current-page] (.getElementById js/document "app")))
 
 (defn init! []
-  (swap! dmap/map-data assoc :clustering_styles clustering_styles)
+  (swap! dmap/mapdata assoc :clustering_styles clustering_stylez)
   (hook-browser-navigation!)
   (mount-root)
   (get-stats)
