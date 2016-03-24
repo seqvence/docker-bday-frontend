@@ -135,7 +135,7 @@
   (get-stats)
   (every! stats-timer "test"
           0;; initial delay
-          3000 ;; interval
+          30000 ;; interval
           )
   (get-instructions))
 
