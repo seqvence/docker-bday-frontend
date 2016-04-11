@@ -81,7 +81,12 @@
       [rmap/map-view @dmap/mapdata]]
     [:div {:id "chart-container" }
       [:h4 {:class "text-muted"} "Programming language usage"]
-      [schart/d3-inner  (get-in @app-state [:stats "votes"])]]])
+      [schart/d3-inner  (get-in @app-state [:stats "votes"])]]
+    [:div {:id "sponsor"
+           :style { :padding-top "5em" }}
+      [:a {:href "https://digitalocean.com/"
+           :target "_blank"}
+        [:img {:src "/DO_Proudly_Hosted_Badge_Blue-03d0bc4f.png" :class "img-responsive center-block" :style {:width "50%" :height "50%"}}]]]])
 
 
 (defn current-page []
